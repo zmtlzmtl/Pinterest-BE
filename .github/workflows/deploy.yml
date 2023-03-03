@@ -3,9 +3,6 @@ name: deploy
 
 # Workflow를 실행시키기 위한 Event 목록입니다.
 on:
-  # 하단 코드에 따라 develop 브랜치에 Push 또는 Pull Request 이벤트가 발생한 경우에 Workflow가 실행됩니다.
-  # 만약 브랜치 구분 없이 이벤트를 지정하고 싶을 경우에는 단순히 아래와 같이 작성도 가능합니다.
-  # on: [push, pull_request]
   push:
     branches: [main]
   pull_request:
@@ -39,7 +36,9 @@ jobs:
           echo JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} >> .env
           cat .env
 
-      # Configure AWS credentials
+      - name: zip file
+        run: zip -r deploy.zip ./scripts ./appspec.yml ./.env ./package.json
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -47,21 +46,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: zip file
-        run: zip -r deploy.zip ./scripts ./appspec.yml ./.env ./package.json
-
-      - name: AWS configure credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-2
-
       - name: upload to S3
         run: aws s3 cp --region ap-northeast-2 ./deploy.zip s3://99-clone/deploy/
 
       - name: deploy with AWS codeDeploy
-        run: aws deploy create-deployment \
+        run: aws deploy create-deployment
           --application-name ${{ secrets.CODE_DEPLOY_APPLICATION_NAME }} \
           --deployment-config-name CodeDeployDefault.OneAtATime
           --deployment-group-name ${{ secrets.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }} \
