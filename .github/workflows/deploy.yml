@@ -19,16 +19,16 @@ jobs:
     steps:
       # 해당 레포지토리로 check-out하는 Action을 불러왔습니다.
       - name: Checkout
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
 
       # Node 환경을 설정하여 npm 커맨드를 사용할 수 있도록 하는 Action을 불러옵니다.
       - name: Set up Node.js
-      - uses: actions/setup-node@v2
+        uses: actions/setup-node@v2
         with:
           node-version: '16'
 
-      - name: Check Npm -v
-        run: npm -v
+      - name: Install dependencies
+        run: npm install
 
       - name: create env file
         working-directory: ./
