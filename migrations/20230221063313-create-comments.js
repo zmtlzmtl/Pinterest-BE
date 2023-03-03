@@ -15,22 +15,22 @@ module.exports = {
       pinId: {
         type: Sequelize.INTEGER,
         allowNull: false,
-        references: {
-          model: 'Pins',
-          key: 'pinId',
-        },
-        onDelete: 'cascade',
+        // references: {
+        //   model: 'Pins',
+        //   key: 'pinId',
+        // },
+        // onDelete: 'cascade',
       },
-      // userId: {
-      //   type: Sequelize.INTEGER,
-      //   allowNull: false,
-      //   references: {
-      //     model: 'Users',
-      //     key: 'userId',
-      //   },
-      //   onDelete: 'cascade',
-      // },
-      comment: {
+      userId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        // references: {
+        //   model: 'Users',
+        //   key: 'userId',
+        // },
+        // onDelete: 'cascade',
+      },
+      content: {
         type: Sequelize.STRING,
         allowNull: false,
       },
