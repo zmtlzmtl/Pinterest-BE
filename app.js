@@ -23,5 +23,5 @@ app.use(
 
 app.use('/api', router);
 
-express().listen(port);
+app.listen(port);
 logger.info(`${process.env.NODE_ENV} - API Server Listening At Port ${port}`);
