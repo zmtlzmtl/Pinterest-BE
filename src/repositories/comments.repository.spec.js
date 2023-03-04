@@ -41,6 +41,8 @@ describe('Layered Architecture Pattern Comment Repository Test', () => {
             content: createCommentParams.content
         })
     })
+    test('Comment Repository FindById method', async () => {
+    })
 
     test('Comment Repository destroy method', async () => {
         mockCommentsModel.destroy = jest.fn(() => {

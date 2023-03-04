@@ -20,4 +20,4 @@ class CommentRepository {
     }
 }
 
-module.exports = CommentRepository;
+module.exports = CommentRepository; 
