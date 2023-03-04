@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { Users } = require('../../db/models');
 
-const pinsRouter = require('./pins.route');
+const pinsRouter = require('./pin.route');
 const commentRouter = require('./comment.route');
 
 router.use('/', [pinsRouter]);
