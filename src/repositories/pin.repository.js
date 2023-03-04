@@ -42,7 +42,7 @@ class PinRepository {
       { title, imageUrl, description, hashtags },
       {
         where: { pinId },
-      },
+      }
     );
     return;
   };
