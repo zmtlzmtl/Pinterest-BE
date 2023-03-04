@@ -1,0 +1,16 @@
+version: 0.0
+os: linux
+files: # codeDeploy 가 ubuntu 환경에서 할 작업들
+  - source: / # 현재 위치
+    destination: /home/ubuntu/build # 작업할 목표 위치
+    overwrite: yes
+
+permissions:
+  - object: /home/ubuntu
+    pattern: '**'
+    owner: ubuntu
+    group: ubuntu
+
+hooks:
+  AfterInstall:
+    - location: scripts/after-install.sh
