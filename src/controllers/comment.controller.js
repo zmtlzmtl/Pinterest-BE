@@ -1,4 +1,4 @@
-const CommentService = require('../services/comment.service.js');
+const CommentService = require('../services/comment.service');
 
 class CommentController {
     constructor() {
@@ -15,4 +15,4 @@ class CommentController {
     }
 }
 
-module.exports = CommentController
+module.exports = CommentController;
