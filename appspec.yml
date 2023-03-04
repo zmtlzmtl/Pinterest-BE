@@ -1,8 +1,8 @@
 version: 0.0
 os: linux
-files:
-  - source: /
-    destination: /home/ubuntu/build
+files: # codeDeploy 가 ubuntu 환경에서 할 작업들
+  - source: / # 현재 위치
+    destination: /home/ubuntu/build # 작업할 목표 위치
     overwrite: yes
 
 permissions:
@@ -13,6 +13,6 @@ permissions:
 
 hooks:
   AfterInstall:
-    - location: scripts/after-deploy.sh
+    - location: scripts/after-install.sh
       timeout: 300
       runas: ubuntu

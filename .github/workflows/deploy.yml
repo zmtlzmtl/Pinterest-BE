@@ -1,39 +1,31 @@
 # Repository의 Actions 탭에 나타날 Workflow 이름으로 필수 옵션은 아닙니다.
-name: Build / CI
+name: deploy
 
 # Workflow를 실행시키기 위한 Event 목록입니다.
 on:
-  # 하단 코드에 따라 develop 브랜치에 Push 또는 Pull Request 이벤트가 발생한 경우에 Workflow가 실행됩니다.
-  # 만약 브랜치 구분 없이 이벤트를 지정하고 싶을 경우에는 단순히 아래와 같이 작성도 가능합니다.
-  # on: [push, pull_request]
   push:
     branches: [main]
   pull_request:
     branches: [main]
 
-env:
-  applicationfolder: spring-boot-hello-world-example
-  AWS_REGION: ${{ AWS_REGION }}
-  S3BUCKET: 99-clone
-
 # 해당 Workflow의 하나 이상의 Job 목록입니다.
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
       # 해당 레포지토리로 check-out하는 Action을 불러왔습니다.
       - name: Checkout
-      - uses: actions/checkout@v2
+        uses: actions/checkout@v2
 
       # Node 환경을 설정하여 npm 커맨드를 사용할 수 있도록 하는 Action을 불러옵니다.
       - name: Set up Node.js
-      - uses: actions/setup-node@v2
+        uses: actions/setup-node@v2
         with:
           node-version: '16'
 
-      - name: Check Npm -v
-        run: npm -v
+      - name: Install dependencies
+        run: npm install
 
       - name: create env file
         working-directory: ./
@@ -44,7 +36,9 @@ jobs:
           echo JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} >> .env
           cat .env
 
-      # Configure AWS credentials
+      - name: zip file
+        run: zip -r deploy.zip ./scripts ./appspec.yml ./.env ./package.json
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -52,22 +46,8 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: zip file
-        run: zip -r deploy.zip ./scripts ./appspec.yml ./.env ./package.json
-
-      - name: AWS configure credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-2
-
       - name: upload to S3
         run: aws s3 cp --region ap-northeast-2 ./deploy.zip s3://99-clone/deploy/
 
       - name: deploy with AWS codeDeploy
-        run: aws deploy create-deployment \
-          --application-name ${{ secrets.CODE_DEPLOY_APPLICATION_NAME }} \
-          --deployment-config-name CodeDeployDefault.OneAtATime
-          --deployment-group-name ${{ secrets.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }} \
-          --s3-location bucket=99-clone,bundleType=zip,key=deploy/deploy.zip
+        run: aws deploy create-deployment --application-name ${{ secrets.CODE_DEPLOY_APPLICATION_NAME }} --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name ${{ secrets.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }} --s3-location bucket=99-clone,bundleType=zip,key=deploy/deploy.zip
