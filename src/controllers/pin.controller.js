@@ -25,8 +25,7 @@ class PinController {
   addPin = async (req, res, next) => {
     const userId = Math.floor(Math.random() * 11);
     const { title, description, hashtags } = req.body;
-    const imageUrl =
-      'https://dimg.donga.com/wps/NEWS/IMAGE/2020/01/15/99227983.1.jpg';
+    const imageUrl = req.file.location;
     try {
       const result = await this.pinService.createPin({
         userId,
