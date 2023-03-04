@@ -10,9 +10,9 @@ class CommentController {
             const comments = await this.commentService.getCom
         } catch (error) {
           next(error)
+    
+        }
     }
-
-
 }
 
 module.exports = CommentController
