@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const { Users } = require('../../models');
+const { Users } = require('../../db/models');
 
 const pinsRouter = require('./pins.route');
 const commentRouter = require('./comments.route');
 
 router.use('/', [pinsRouter]);
+
 router.use('/pin/:pinId/comment', [commentRouter]);
 
 router.get('/', (_req, res) => {
