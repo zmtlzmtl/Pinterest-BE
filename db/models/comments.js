@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       //   foreignKey: 'UserId',
       //   onDelete: 'CASCADE',
       // });
-      this.belongsTo(models.pins, {
+      this.belongsTo(models.Pins, {
         targetKey: 'pinId',
         foreignKey: 'pinId',
         onDelete: 'CASCADE',

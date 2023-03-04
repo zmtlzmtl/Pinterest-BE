@@ -15,8 +15,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       this.hasMany(models.Comments, {
-        sourceKey: 'postId',
-        foreignKey: 'postId',
+        sourceKey: 'pinId',
+        foreignKey: 'pinId',
       });
       //   this.belongsTo(models.Users, {
       //     targetKey: 'userId',
