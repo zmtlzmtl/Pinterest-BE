@@ -3,7 +3,7 @@ class CommentRepository {
         this.commentsModel = CommentsModel;
     }
 
-    createComment = async ( userId, pinId, content ) => {
+    createComment = async (userId, pinId, content) => {
         const comment = await this.commentsModel.create({
             userId,
             pinId,
@@ -12,7 +12,7 @@ class CommentRepository {
         return comment;
     }
 
-    destroyComment = async ( commentId ) => {
+    destroyComment = async (commentId) => {
         const comment = await this.commentsModel.destroy({
             where: { commentId }
         })
@@ -20,4 +20,4 @@ class CommentRepository {
     }
 }
 
-module.exports= CommentRepository;
+module.exports = CommentRepository;

@@ -14,10 +14,10 @@ describe('Layered Architecture Pattern Comment Repository Test', () => {
     })
 
     test('Comment Repository create method', async () => {
-        mockCommentsModel.create = jest.fn(() => {  
+        mockCommentsModel.create = jest.fn(() => {
             return "Create Finish";
         })
-    
+
 
         const createCommentParams = {
             userId: 1,
