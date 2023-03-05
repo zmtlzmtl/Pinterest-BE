@@ -4,9 +4,11 @@ const { Users } = require('../../db/models');
 
 const pinsRouter = require('./pin.route');
 const commentRouter = require('./comment.route');
+const saveRouter = require('./save.route');
 
 router.use('/', [pinsRouter]);
 router.use('/pin', [commentRouter]);
+router.usr('/save', [saveRouter]);
 
 router.get('/', (_req, res) => {
   res.send('정상적으로 요청되었습니다.');
