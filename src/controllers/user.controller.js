@@ -31,12 +31,29 @@ class UserController {
             return res.status(400).json({err:err.message})
         }
     }
-    // logOut = async () => {
-    //     try {
-            
-    //     } catch (err) {
-    //         console.log(err)
-    //     }
-    // }
+    logOut = async (req,res) => {
+        try {
+            if (req.session.userId) {
+            // if user is logged in, destroy the session and clear the cookie
+            req.session.destroy(err => {
+            if (err) {
+                // if there's an error destroying the session, return an error response
+                return res.status(500).json({ error: 'Could not log out' });
+            }
+            // clear the user ID cookie
+            res.clearCookie('connect.sid');
+            // return a success response
+            return res.json({ message: 'Logged out successfully' });
+            });
+        } else {
+            // if user is not logged in, return an error response
+            return res.status(401).json({ error: 'You are not logged in' });
+        }
+        }
+        catch (err) {
+            console.log(err)
+            return res.status(400).json({ error: err.message });
+        }
+    }
 }
 module.exports = UserController

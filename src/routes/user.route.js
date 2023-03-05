@@ -11,4 +11,5 @@ router.use(session({
 }));
 
 router.post('/login', userController.logIn)
-router.post('/signIn', userController.signIn);
+router.post('/signin', userController.signIn)
+router.post('/logout', userController.logOut)
