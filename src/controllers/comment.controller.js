@@ -1,33 +1,44 @@
 const CommentService = require('../services/comment.service');
+const { logger } = require('../middlewares/logger');
 
 class CommentController {
   constructor() {
     this.commentService = new CommentService();
   }
   addComment = async (req, res, next) => {
+    logger.info(`CommentService.addComment Request`);
     const { pinId } = req.params;
-    const { cotent } = req.body;
+    const userId = Math.floor(Math.random() * 11);
+    const { content } = req.body;
+    console.log(userId, req.params, content);
     try {
-      const comment = await this.commentService.addComment({ pinId, cotent });
+      const comment = await this.commentService.addComment({
+        userId,
+        pinId,
+        content,
+      });
 
-      res.status(201).json({ comment });
+      res.status(201).json(comment);
     } catch (error) {
       next(error);
     }
+  };
 
-    deleteComment = async (req, res, next) => {
-      const { pinId, commentId } = req.params;
-      try {
-        const comment = await this.commentService.deleteComment({
-          pinId,
-          commentId,
-        });
+  deleteComment = async (req, res, next) => {
+    logger.info(`CommentService.deleteComment Request`);
+    const userId = Math.floor(Math.random() * 11);
+    const { pinId, commentId } = req.params;
+    try {
+      const comment = await this.commentService.deleteComment({
+        userId,
+        pinId,
+        commentId,
+      });
 
-        res.status(200).json(comment);
-      } catch (error) {
-        next(error);
-      }
-    };
+      res.status(200).json(comment);
+    } catch (error) {
+      next(error);
+    }
   };
 }
 
