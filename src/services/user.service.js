@@ -1,4 +1,5 @@
 const UserRepo = require("../repositories/user.repository")
+const jwt = require("jsonwebtoken")
 
 class UserService {
     constructor() {
@@ -8,8 +9,10 @@ class UserService {
         const user = await this.userRepo.signInUser({id, pw, nickname})
         return user;
     }
-    loginUser = async () => {
-        
+    getUser = async ({id, pw}) => {
+        const loginUser = await this.userRepo.getUser({ id, pw })
+
+        return loginUser
     }
 }
 module.exports = UserService;

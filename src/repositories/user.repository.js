@@ -1,4 +1,5 @@
 const { Users } = require("C:/Users/User/Desktop/clonecoding/db/models/users.js")
+const { Op } = require("sequelize");
 
 class UserRepo {
   constructor() { }
@@ -8,9 +9,11 @@ class UserRepo {
     })
     return user
   }
-  loginUser = async () => {
+  getUser = async ({id, pw}) => {
     const user = await Users.findOne({
-
+        where: {
+          [Op.and]: [{id}, {pw}],
+        },
     })
       return user;
   }
