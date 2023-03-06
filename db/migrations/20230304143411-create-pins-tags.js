@@ -12,7 +12,7 @@ module.exports = {
           type: Sequelize.INTEGER,
         },
       },
-      { timestamp: false }
+      { timestamps: false }
     );
   },
   async down(queryInterface, Sequelize) {

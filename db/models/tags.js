@@ -30,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'Tags',
+      timestamps: false,
     }
   );
   return Tags;

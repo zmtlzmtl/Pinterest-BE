@@ -15,7 +15,7 @@ module.exports = {
           type: Sequelize.STRING,
         },
       },
-      { timestamp: false }
+      { timestamps: false }
     );
   },
   async down(queryInterface, Sequelize) {
