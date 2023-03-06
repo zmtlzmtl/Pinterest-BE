@@ -1,4 +1,7 @@
-const { BadRequestError } = require('../exceptions/customError.js');
+const {
+  BadRequestError,
+  ForbiddenError,
+} = require('../exceptions/customError.js');
 const { logger } = require('../middlewares/logger');
 const PinRepository = require('../repositories/pin.repository.js');
 
@@ -25,8 +28,8 @@ class PinService {
   };
 
   // 게시글 생성
-  createPin = async ({ userId, title, imageUrl, description, hashtags }) => {
-    logger.info(`PinService.createPin`);
+  addPin = async ({ userId, title, imageUrl, description, hashtags }) => {
+    logger.info(`PinService.addPin`);
     await this.pinRepository.create({
       userId,
       title,
@@ -49,14 +52,10 @@ class PinService {
     logger.info(`PinService.updatePin`);
     const pin = await this.pinRepository.findByPinId({ pinId });
     if (!pin) {
-      const err = new Error('게시글 조회에 실패하였습니다.');
-      err.name = '404';
-      throw err;
+      throw new BadRequestError('게시글 조회에 실패하였습니다.');
     }
     if (userId !== pin.userId) {
-      const err = new Error('권한이 없습니다.');
-      err.name = '401';
-      throw err;
+      throw new ForbiddenError('권한이 없습니다.');
     }
     await this.pinRepository.update({
       userId,
@@ -75,14 +74,10 @@ class PinService {
     logger.info(`PinService.deletePin`);
     const pin = await this.pinRepository.findByPinId({ pinId });
     if (!pin) {
-      const err = new Error('게시글 조회에 실패하였습니다.');
-      err.name = '404';
-      throw err;
+      throw new BadRequestError('게시글 조회에 실패하였습니다.');
     }
     if (userId !== pin.userId) {
-      const err = new Error('권한이 없습니다.');
-      err.name = '401';
-      throw err;
+      throw new ForbiddenError('권한이 없습니다.');
     }
     await this.pinRepository.delete({ pinId });
 
