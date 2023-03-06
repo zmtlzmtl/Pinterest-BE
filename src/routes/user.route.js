@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const { Users } = require('../../db/models');
 const bcrypt = require('bcrypt');
-const { Op } = require('sequelize');
 const Joi = require('joi');
+const jwt = require('jsonwebtoken');
+
 const userSchema = Joi.object({
   email: Joi.string().email({
     minDomainSegments: 2,
@@ -35,6 +36,12 @@ router.post('/login', async (req, res) => {
     if (user) {
       const validPassword = await bcrypt.compare(password, user.password);
       if (validPassword) {
+        const token = jwt.sign(user.dataValues, process.env.KEY, {
+          expiresIn: '800000', // => 13 minutes
+        });
+        res.cookie('token', token, {
+          httpOnly: true,
+        });
         return res.status(200).json({ msg: 'login successful' });
       } else {
         return res.status(400).json({ msg: 'wrong password.' });
