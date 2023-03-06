@@ -17,7 +17,7 @@ class PinService {
     if (!keyword) {
       pins = await this.pinRepository.findAll();
     } else {
-      pins = await this.pinRepository.findByTagKeyword({ keyword });
+      pins = await this.pinRepository.findByKeyword({ keyword });
     }
     return pins ? pins : [];
   };

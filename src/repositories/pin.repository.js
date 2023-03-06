@@ -63,10 +63,15 @@ class PinRepository {
   };
 
   // 게시글 태그로 목록 조회
-  findByTagKeyword = async ({ keyword }) => {
-    logger.info(`PinRepository.findByTagKeyword`);
-    const pin = await Pins.findOne({
-      where: { hashtags: { [Op.like]: `%${keyword}%` } },
+  findByKeyword = async ({ keyword }) => {
+    logger.info(`PinRepository.findByKeyword`);
+    const pin = await Pins.findAll({
+      where: {
+        [Op.or]: [
+          { title: { [Op.like]: `%${keyword}%` } },
+          { hashtags: { [Op.like]: `%${keyword}%` } },
+        ],
+      },
     });
     return pin;
   };
