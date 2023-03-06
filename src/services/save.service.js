@@ -29,9 +29,6 @@ class SaveService {
   getAllPin = async ({ userId }) => {
     logger.info('SaveService.getAllPin');
     const getSave = await this.saveRepository.getAllPin({ userId });
-    if (!getSave) {
-      throw new BadRequestError('저장된 핀이 존재하지 않습니다.');
-    }
 
     return getSave.map((save) => {
       return {
