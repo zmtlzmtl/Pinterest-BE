@@ -13,8 +13,8 @@ class CommentService {
   }
   addComment = async ({ userId, pinId, content }) => {
     logger.info(`CommentService.addComment`);
-    const existpin = await this.pinRepository.findByPinId({ pinId });
-    if (!existpin) {
+    const existPin = await this.pinRepository.findByPinId({ pinId });
+    if (!existPin) {
       throw new BadRequestError('게시글 조회에 실패하였습니다.');
     }
     await this.commentRepository.addComment({ userId, pinId, content });
@@ -24,8 +24,8 @@ class CommentService {
 
   deleteComment = async ({ userId, pinId, commentId }) => {
     logger.info(`CommentService.deleteComment`);
-    const existpin = await this.pinRepository.findByPinId({ pinId });
-    if (!existpin) {
+    const existPin = await this.pinRepository.findByPinId({ pinId });
+    if (!existPin) {
       throw new BadRequestError('게시글 조회에 실패하였습니다.');
     }
     // userId 구현 시 진행
