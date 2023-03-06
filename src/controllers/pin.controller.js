@@ -28,7 +28,8 @@ class PinController {
   addPin = async (req, res, next) => {
     logger.info(`PinController.addPin Request`);
     const userId = Math.floor(Math.random() * 11);
-    const { title, description, hashtags } = req.body;
+    const data = req.body.data;
+    const { title, description, hashtags } = JSON.parse(data);
     const imageUrl = req.file.location;
     try {
       const result = await this.pinService.addPin({
