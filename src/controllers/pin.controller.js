@@ -31,7 +31,7 @@ class PinController {
     const { title, description, hashtags } = req.body;
     const imageUrl = req.file.location;
     try {
-      const result = await this.pinService.createPin({
+      const result = await this.pinService.addPin({
         userId,
         title,
         imageUrl,

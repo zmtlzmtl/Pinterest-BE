@@ -22,7 +22,7 @@ router.post('/signup', async (req, res) => {
     await userSchema.validateAsync(req.body) // => validation 'user' with using Joi validator.
     const hash = await bcrypt.hash(password, 10) // => using hash to make password safer.
     const user = await Users.create({ email, password: hash, nickname });
-    return res.status(200).json({ user })
+    return res.status(200).json([{ email: user.email }, { nickname: user.nickname}])
   } catch (err) {
     console.log(err)
     return res.status(400).json({ err: err.message });
@@ -36,7 +36,7 @@ router.post('/login', async (req, res) => {
     if (user) {
       const validPassword = await bcrypt.compare(password, user.password);
       if (validPassword) {
-        return res.status(200).json({validPassword})
+        return res.status(200).json({msg: "login successful"})
       } else {
         return res.status(400).json({msg:"wrong password."})
       }
