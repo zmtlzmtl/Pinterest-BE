@@ -1,5 +1,6 @@
 const { logger } = require('../middlewares/logger');
 const { Pins } = require('../../db/models');
+const { Op } = require('sequelize');
 
 class PinRepository {
   constructor() {}
@@ -59,6 +60,15 @@ class PinRepository {
       where: { pinId },
     });
     return;
+  };
+
+  // 게시글 태그로 목록 조회
+  findByTagKeyword = async ({ keyword }) => {
+    logger.info(`PinRepository.findByTagKeyword`);
+    const pin = await Pins.findOne({
+      where: { hashtags: { [Op.like]: `%${keyword}%` } },
+    });
+    return pin;
   };
 }
 

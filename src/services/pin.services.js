@@ -11,10 +11,15 @@ class PinService {
   }
 
   // 게시글 목록 조회
-  getAllPins = async () => {
+  getAllPins = async ({ keyword }) => {
     logger.info(`PinService.getAllPins`);
-    const pins = await this.pinRepository.findAll();
-    return pins;
+    let pins;
+    if (!keyword) {
+      pins = await this.pinRepository.findAll();
+    } else {
+      pins = await this.pinRepository.findByTagKeyword({ keyword });
+    }
+    return pins ? pins : [];
   };
 
   // 게시글 상세 조회
