@@ -20,8 +20,18 @@ class SaveRepository {
 
   deleteSavePin = async ({ userId, pinId }) => {
     logger.info('SaveRepository.deleteSavePin');
-    await Saves.destroy({ userId, pinId });
+    await Saves.destroy({
+      where: { userId, pinId },
+    });
     return;
+  };
+
+  getAllPin = async ({ userId }) => {
+    logger.info('SaveRepository.getAllPin');
+    const getSave = await Saves.findAll({
+      where: { userId },
+    });
+    return getSave;
   };
 }
 

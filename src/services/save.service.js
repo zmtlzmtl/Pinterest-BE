@@ -26,6 +26,19 @@ class SaveService {
     await this.saveRepository.deleteSavePin({ userId, pinId });
     return { message: 'Pin이 제거되었습니다' };
   };
+  getAllPin = async ({ userId }) => {
+    logger.info('SaveService.getAllPin');
+    const getSave = await this.saveRepository.getAllPin({ userId });
+    if (!getSave) {
+      throw new BadRequestError('저장된 핀이 존재하지 않습니다.');
+    }
+    
+    return getSave.map((save) => {
+      return {
+        pinId: save.pinId,
+      };
+    });
+  };
 }
 
 module.exports = SaveService;
