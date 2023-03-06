@@ -1,6 +1,7 @@
 const { logger } = require('../middlewares/logger');
-const { Pins, Tags, PinsTags, sequelize } = require('../../db/models');
 const { Transaction } = require('sequelize');
+const { Pins, Tags, PinsTags, sequelize } = require('../../db/models');
+const { Op } = require('sequelize');
 
 class PinRepository {
   constructor() {}
@@ -59,9 +60,7 @@ class PinRepository {
           { tagId: newTag, pinId: newPin.pinId },
           { transaction: t }
         );
-      });
       }
-      
 
       t.commit();
     } catch (e) {
@@ -96,6 +95,20 @@ class PinRepository {
       where: { pinId },
     });
     return;
+  };
+
+  // 게시글 태그로 목록 조회
+  findByKeyword = async ({ keyword }) => {
+    logger.info(`PinRepository.findByKeyword`);
+    const pin = await Pins.findAll({
+      where: {
+        [Op.or]: [
+          { title: { [Op.like]: `%${keyword}%` } },
+          { hashtags: { [Op.like]: `%${keyword}%` } },
+        ],
+      },
+    });
+    return pin;
   };
 }
 
