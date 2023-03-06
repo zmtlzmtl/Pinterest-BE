@@ -21,7 +21,6 @@ class CommentService {
 
     return comments;
   };
-
   addComment = async ({ userId, pinId, content }) => {
     logger.info(`CommentService.addComment`);
     const existPin = await this.pinRepository.findByPinId({ pinId });
