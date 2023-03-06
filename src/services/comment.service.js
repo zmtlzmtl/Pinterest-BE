@@ -28,9 +28,10 @@ class CommentService {
     if (!Comment) {
       throw new BadRequestError('게시글 조회에 실패하였습니다.');
     }
-    if (Comment.userId !== userId) {
-      throw new ForbiddenError('권한이 없습니다.');
-    }
+    // userId 구현 시 진행
+    // if (Comment.userId !== userId) {
+    //   throw new ForbiddenError('권한이 없습니다.');
+    // }
     await this.commentRepository.deleteComment({ commentId });
     return { message: '댓글을 삭제하였습니다.' };
   };
