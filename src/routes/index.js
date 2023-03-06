@@ -6,7 +6,7 @@ const pinsRouter = require('./pin.route');
 const commentRouter = require('./comment.route');
 
 router.use('/', [pinsRouter]);
-router.use('/pin', [commentRouter]);
+router.use('/pins', [commentRouter]);
 
 router.get('/', (_req, res) => {
   res.send('정상적으로 요청되었습니다.');
