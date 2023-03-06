@@ -24,8 +24,8 @@ class CommentService {
 
   deleteComment = async ({ userId, pinId, commentId }) => {
     logger.info(`CommentService.deleteComment`);
-    const Comment = await this.commentRepository.findByPinId({ pinId });
-    if (!Comment) {
+    const existpin = await this.pinRepository.findByPinId({ pinId });
+    if (!existpin) {
       throw new BadRequestError('게시글 조회에 실패하였습니다.');
     }
     // userId 구현 시 진행

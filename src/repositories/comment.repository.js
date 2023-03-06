@@ -1,4 +1,4 @@
-const { Pins, Comments } = require('../../db/models');
+const { Comments } = require('../../db/models');
 const { logger } = require('../middlewares/logger');
 
 class CommentRepository {
@@ -12,14 +12,6 @@ class CommentRepository {
       content,
     });
     return;
-  };
-
-  findByPinId = async ({ pinId }) => {
-    logger.info(`CommentRepository.findByPinId`);
-    const pin = await Pins.findOne({
-      where: { pinId },
-    });
-    return pin;
   };
 
   deleteComment = async ({ commentId }) => {
