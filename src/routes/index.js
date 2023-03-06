@@ -7,7 +7,7 @@ const commentRouter = require('./comment.route');
 const saveRouter = require('./save.route');
 
 router.use('/', [pinsRouter]);
-router.use('/pin', [commentRouter]);
+router.use('/pins', [commentRouter]);
 router.use('/save', [saveRouter]);
 
 router.get('/', (_req, res) => {
