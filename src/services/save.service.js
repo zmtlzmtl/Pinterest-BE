@@ -32,7 +32,7 @@ class SaveService {
     if (!getSave) {
       throw new BadRequestError('저장된 핀이 존재하지 않습니다.');
     }
-    
+
     return getSave.map((save) => {
       return {
         pinId: save.pinId,
