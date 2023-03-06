@@ -1,5 +1,5 @@
 const express = require('express');
-const { logger } = require('./config/logger');
+const { logger } = require('./src/middlewares/logger');
 const cookieparser = require('cookie-parser');
 const cors = require('cors');
 const dotenv = require('dotenv');
