@@ -4,7 +4,9 @@ const { Users } = require('../../db/models');
 
 const pinsRouter = require('./pin.route');
 const commentRouter = require('./comment.route');
+const userRouter = require('./user.route');
 
+router.use('/', [userRouter]);
 router.use('/', [pinsRouter]);
 router.use('/pins', [commentRouter]);
 router.get('/', (_req, res) => {
