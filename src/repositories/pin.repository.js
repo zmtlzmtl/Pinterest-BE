@@ -24,16 +24,11 @@ class PinRepository {
   };
   // 게시글 생성
   create = async ({ userId, title, imageUrl, description, hashtags }) => {
-    logger.info(`PinRepository.create`);
-    const regex = /\[|\]+/gi;
-    const hashtagsArray = hashtags.replaceAll(regex, '').split(',');
-
     const t = await sequelize.transaction({
-      isolationLevel: Transaction.ISOLATION_LEVELS.READ_COMMITTED,
+      isolationLevel: Transaction.ISOLATION_LEVELS.READ_UNCOMMITTED,
     });
-
     try {
-      // 핀 저장
+      // 핀 생성
       logger.info(`PinRepository.create.Pins.create`);
       const newPin = await Pins.create(
         {
@@ -45,27 +40,30 @@ class PinRepository {
         },
         { transaction: t }
       );
+      if (!newPin) throw Error('핀 생성에 실패했습니다.');
 
       // 태그 저장
-      logger.info(`PinRepository.create.Tags.create`);
-      for (tag of hashtagsArray) {
-        await Tags.create({ tagName: tag }, { transaction: t });
-        logger.info(`PinRepository.create.Tags.findOne`);
-        const newTag = await Tags.findOne(
-          { where: { tagName: tag } },
-          { transaction: t }
-        );
-        logger.info(`PinRepository.create.PinsTags.create`);
-        await PinsTags.create(
-          { tagId: newTag, pinId: newPin.pinId },
-          { transaction: t }
-        );
-      }
+      const regex = /\[|\]+/gi;
+      const hashtagsArray = hashtags.replaceAll(regex, '').split(',');
+      for (const tag of hashtagsArray) {
+        logger.info(`PinRepository.create.Tag.create`);
+        const newTag = await Tags.create({ tagName: tag }, { transaction: t });
 
-      t.commit();
+        logger.info(`PinRepository.create.PinsTags.createPinTag`);
+        const result = await PinsTags.create(
+          {
+            pinId: newPin.pinId,
+            tagId: newTag.tagId,
+          },
+          { transaction: t }
+        );
+        if (!result) throw Error('핀 생성에 실패했습니다.');
+      }
+      await t.commit();
+      return newPin;
     } catch (e) {
       console.error(e);
-      t.rollback();
+      await t.rollback();
     }
   };
 
