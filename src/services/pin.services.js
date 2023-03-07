@@ -35,13 +35,16 @@ class PinService {
   // 게시글 생성
   addPin = async ({ userId, title, imageUrl, description, hashtags }) => {
     logger.info(`PinService.addPin`);
-    await this.pinRepository.create({
+    // 핀 저장
+    const newPin = await this.pinRepository.create({
       userId,
       title,
       imageUrl,
       description,
       hashtags,
     });
+    if (!newPin) throw Error('핀 생성에 실패했습니다.');
+
     return { message: '게시글을 생성하였습니다.' };
   };
 
