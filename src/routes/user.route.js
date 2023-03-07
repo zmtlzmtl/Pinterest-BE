@@ -4,6 +4,7 @@ const { Users } = require('../../db/models');
 const bcrypt = require('bcrypt');
 const Joi = require('joi');
 const jwt = require('jsonwebtoken');
+const axios = require('axios');
 
 const userSchema = Joi.object({
   email: Joi.string().email({
@@ -49,6 +50,32 @@ router.post('/login', async (req, res) => {
     } else {
       return res.status(400).json({ msg: 'User not found.' });
     }
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json({ err: err.message });
+  }
+});
+
+router.get('/oauth/kakao', async (req, res) => {
+  const code = req.query.code;
+  try {
+    // Access token 가져오기
+    const res1 = await axios.post(
+      'https://kauth.kakao.com/oauth/token',
+      {},
+      {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        params: {
+          grant_type: 'authorization_code',
+          client_id: '5d8ed25e63b7f00ff427d9b51608c030',
+          code,
+          redirect_uri: 'https://dev.sparta-hd.shop/api/oauth/kakao',
+        },
+      }
+    );
+    return res.status(200).json({ msg: 'kakao login success' });
   } catch (err) {
     console.log(err);
     return res.status(400).json({ err: err.message });
