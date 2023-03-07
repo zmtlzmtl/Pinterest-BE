@@ -69,7 +69,7 @@ router.get('/oauth/kakao', async (req, res) => {
         },
         params: {
           grant_type: 'authorization_code',
-          client_id: '5d8ed25e63b7f00ff427d9b51608c030',
+          client_id: process.env.client_id,
           code,
           redirect_uri: 'https://dev.sparta-hd.shop/api/oauth/kakao',
         },
