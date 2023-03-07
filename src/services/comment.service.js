@@ -1,6 +1,7 @@
 const {
   BadRequestError,
   ForbiddenError,
+  NotFoundError,
 } = require('../exceptions/customError.js');
 const { logger } = require('../middlewares/logger');
 const CommentRepository = require('../repositories/comment.repository');
@@ -15,7 +16,7 @@ class CommentService {
     logger.info(`CommentService.addComment`);
     const existPin = await this.pinRepository.findByPinId({ pinId });
     if (!existPin) {
-      throw new BadRequestError('게시글 조회에 실패하였습니다.');
+      throw new NotFoundError('Pin 조회에 실패하였습니다.');
     }
     const comments = await this.commentRepository.findAllComment({ pinId });
 
@@ -25,7 +26,7 @@ class CommentService {
     logger.info(`CommentService.addComment`);
     const existPin = await this.pinRepository.findByPinId({ pinId });
     if (!existPin) {
-      throw new BadRequestError('게시글 조회에 실패하였습니다.');
+      throw new NotFoundError('Pin 조회에 실패하였습니다.');
     }
     await this.commentRepository.addComment({ userId, pinId, content });
 
@@ -38,7 +39,7 @@ class CommentService {
       commentId,
     });
     if (!existComment) {
-      throw new BadRequestError('댓글 조회에 실패하였습니다.');
+      throw new NotFoundError('댓글 조회에 실패하였습니다.');
     }
     // userId 구현 시 진행
     // if (Comment.userId !== userId) {
