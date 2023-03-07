@@ -8,7 +8,8 @@ class PinController {
   // 게시글 목록 조회
   getAllPins = async (req, res) => {
     logger.info(`PinController.getAllPins Request`);
-    const pins = await this.pinService.getAllPins();
+    const { keyword } = req.query;
+    const pins = await this.pinService.getAllPins({ keyword });
     res.status(200).json({ pins });
   };
 
@@ -28,7 +29,8 @@ class PinController {
   addPin = async (req, res, next) => {
     logger.info(`PinController.addPin Request`);
     const userId = Math.floor(Math.random() * 11);
-    const { title, description, hashtags } = req.body;
+    const data = req.body.data;
+    const { title, description, hashtags } = JSON.parse(data);
     const imageUrl = req.file.location;
     try {
       const result = await this.pinService.addPin({
