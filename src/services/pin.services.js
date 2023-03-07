@@ -11,10 +11,15 @@ class PinService {
   }
 
   // 게시글 목록 조회
-  getAllPins = async () => {
+  getAllPins = async ({ keyword }) => {
     logger.info(`PinService.getAllPins`);
-    const pins = await this.pinRepository.findAll();
-    return pins;
+    let pins;
+    if (!keyword) {
+      pins = await this.pinRepository.findAll();
+    } else {
+      pins = await this.pinRepository.findByKeyword({ keyword });
+    }
+    return pins ? pins : [];
   };
 
   // 게시글 상세 조회
@@ -30,13 +35,16 @@ class PinService {
   // 게시글 생성
   addPin = async ({ userId, title, imageUrl, description, hashtags }) => {
     logger.info(`PinService.addPin`);
-    await this.pinRepository.create({
+    // 핀 저장
+    const newPin = await this.pinRepository.create({
       userId,
       title,
       imageUrl,
       description,
       hashtags,
     });
+    if (!newPin) throw Error('핀 생성에 실패했습니다.');
+
     return { message: '게시글을 생성하였습니다.' };
   };
 
