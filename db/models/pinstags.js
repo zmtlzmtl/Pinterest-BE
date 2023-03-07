@@ -22,6 +22,12 @@ module.exports = (sequelize, DataTypes) => {
   }
   PinsTags.init(
     {
+      pinTagId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+      },
       pinId: {
         type: DataTypes.INTEGER,
         allowNull: false,
@@ -44,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'PinsTags',
-      timestamp: false,
+      timestamps: false,
     }
   );
   return PinsTags;

@@ -5,6 +5,12 @@ module.exports = {
     await queryInterface.createTable(
       'PinsTags',
       {
+        pinTagId: {
+          allowNull: false,
+          autoIncrement: true,
+          primaryKey: true,
+          type: Sequelize.INTEGER,
+        },
         pinId: {
           type: Sequelize.INTEGER,
         },
