@@ -3,7 +3,7 @@ const router = express.Router();
 
 const CommentController = require('../controllers/comment.controller');
 const commentController = new CommentController();
-const commentValidation = require('../../validations/commentValidation');
+const commentValidation = require('../validations/commentValidation');
 
 router.get(
   '/:pinId/comments',

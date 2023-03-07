@@ -1,6 +1,6 @@
 const Joi = require('joi');
-const { BadRequestError } = require('../src/exceptions/customError');
-const { logger } = require('../src/middlewares/logger');
+const { BadRequestError } = require('../exceptions/customError');
+const { logger } = require('../middlewares/logger');
 
 const commentValidation = {
   commentCheck: async (req, res, next) => {
