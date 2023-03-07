@@ -14,7 +14,7 @@ const test = {
   database: process.env.TEST_DB_DATABASE,
   host: process.env.TEST_DB_HOST,
   dialect: process.env.TEST_DB_DIALECT,
-  logging: process.env.NODE_ENV !== 'development',
+  logging: () => process.env.NODE_ENV !== 'development',
 };
 
 const production = {
@@ -23,7 +23,7 @@ const production = {
   database: process.env.PROD_DB_DATABASE,
   host: process.env.PROD_DB_HOST,
   dialect: process.env.PROD_DB_DIALECT,
-  logging: process.env.NODE_ENV !== 'development',
+  logging: () => process.env.NODE_ENV !== 'development',
 };
 
 module.exports = { development, test, production };
