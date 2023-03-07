@@ -4,6 +4,7 @@ const router = express.Router();
 const uploadMiddleware = require('../middlewares/upload.middleware');
 const PinController = require('../controllers/pin.controller');
 const pinController = new PinController();
+const pinValidation = require('../../validations/pinValidation');
 
 router.get('/pins', pinController.getAllPins);
 router.get('/pins/:pinId', pinController.getPin);
