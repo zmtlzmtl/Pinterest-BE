@@ -1,6 +1,7 @@
 const UserService = require('../services/user.service.js');
 const AuthService = require('../services/auth.service.js');
 const { UnauthorizedError } = require('../exceptions/customError.js');
+const { logger } = require('../middlewares/logger');
 
 class UserController {
   constructor() {
@@ -9,6 +10,7 @@ class UserController {
   }
   // 회원 가입
   userSignup = async (req, res, next) => {
+    logger.info(`UserController.userSignup Request`);
     const { email, nickname, password } = req.body;
     try {
       await this.userService.createUser({ email, nickname, password });
@@ -20,6 +22,7 @@ class UserController {
 
   // 로그인
   userLogin = async (req, res, next) => {
+    logger.info(`UserController.userLogin Request`);
     const { email, password } = req.body;
 
     try {
@@ -60,7 +63,7 @@ class UserController {
       if (!user) {
         throw new Error('비회원');
       }
-      return res.status(200).json({ ok: turzze });
+      return res.status(200).json({ ok: true });
     } catch (error) {
       console.error(error);
       return res.status(401).json({ ok: false });
