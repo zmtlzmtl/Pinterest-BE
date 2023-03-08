@@ -1,65 +1,57 @@
 'use strict';
 const { Model } = require('sequelize');
-
-/**
- * @param {import("sequelize").Sequelize} sequelize - Sequelize
- * @param {import("sequelize").DataTypes} DataTypes - Sequelize Column DataTypes
- * @return {Model} - Sequelize Model
- * **/
 module.exports = (sequelize, DataTypes) => {
-  class Saves extends Model {
+  class PinsTags extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      this.belongsTo(models.Users, {
-        targetKey: 'userId',
-        foreignKey: 'userId',
-        onDelete: 'CASCADE',
-      });
       this.belongsTo(models.Pins, {
         targetKey: 'pinId',
         foreignKey: 'pinId',
         onDelete: 'CASCADE',
       });
+      this.belongsTo(models.Tags, {
+        targetKey: 'tagId',
+        foreignKey: 'tagId',
+        onDelete: 'CASCADE',
+      });
     }
   }
-
-  Saves.init(
+  PinsTags.init(
     {
-      saveId: {
+      pinTagId: {
+        type: DataTypes.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: DataTypes.INTEGER,
-      },
-      userId: {
-        allowNull: false,
-        type: DataTypes.INTEGER,
-        references: {
-          model: 'Users',
-          key: 'userId',
-        },
-        onDelete: 'cascade',
       },
       pinId: {
-        allowNull: false,
         type: DataTypes.INTEGER,
+        allowNull: false,
         references: {
           model: 'Pins',
           key: 'pinId',
         },
-        onDelete: 'cascade',
+        onDelete: 'CASCADE',
+      },
+      tagId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Tags',
+          key: 'tagId',
+        },
+        onDelete: 'CASCADE',
       },
     },
     {
       sequelize,
-      modelName: 'Saves',
-      timestamps: false ,
+      modelName: 'PinsTags',
+      timestamps: false,
     }
   );
-  
-  return Saves;
+  return PinsTags;
 };
