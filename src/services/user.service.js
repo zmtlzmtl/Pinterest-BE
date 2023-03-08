@@ -40,7 +40,7 @@ class UserService {
     }
     const isPasswordCorrect = await bcrypt.compare(
       password,
-      existUser.password
+      loginUser.password
     );
     if (!isPasswordCorrect) {
       throw new UnauthorizedError('이메일이나 비밀번호가 일치하지 않습니다.');
