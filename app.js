@@ -19,6 +19,7 @@ app.use(
     methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH'],
     origin: true,
     credentials: true,
+    exposedHeaders: ['*', 'Authorization', 'Content-Type'],
   })
 );
 
