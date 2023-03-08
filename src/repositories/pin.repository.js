@@ -6,9 +6,11 @@ const { Op } = require('sequelize');
 class PinRepository {
   constructor() {}
   // 게시글 목록 조회
-  findAll = async () => {
+  findAll = async ({ offset }) => {
     logger.info(`PinRepository.findAll`);
     const pins = await Pins.findAll({
+      offset: offset * 30,
+      limit: 30,
       order: [['createdAt', 'DESC']],
     });
     return pins;
@@ -96,15 +98,18 @@ class PinRepository {
   };
 
   // 게시글 태그로 목록 조회
-  findByKeyword = async ({ keyword }) => {
+  findByKeyword = async ({ keyword, offset }) => {
     logger.info(`PinRepository.findByKeyword`);
     const pin = await Pins.findAll({
+      offset: offset * 30,
+      limit: 30,
       where: {
         [Op.or]: [
           { title: { [Op.like]: `%${keyword}%` } },
           { hashtags: { [Op.like]: `%${keyword}%` } },
         ],
       },
+      order: [['createdAt', 'DESC']],
     });
     return pin;
   };

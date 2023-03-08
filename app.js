@@ -1,6 +1,7 @@
 const express = require('express');
 const { logger } = require('./src/middlewares/logger');
 const cookieparser = require('cookie-parser');
+const errorMiddleware = require('./src/middlewares/error.middleware');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const router = require('./src/routes');
@@ -22,6 +23,7 @@ app.use(
 );
 
 app.use('/api', router);
+app.use(errorMiddleware);
 
 app.listen(port);
 logger.info(`${process.env.NODE_ENV} - API Server Listening At Port ${port}`);

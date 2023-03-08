@@ -12,6 +12,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-20.04
+    environment: production
+    env:
+      AWS_REGION: ap-northeast-2
+      CODE_DEPLOY_APPLICATION_NAME: 99-clone
+      CODE_DEPLOY_DEPLOYMENT_GROUP_NAME: 99-clone
+      AWS_S3_BUCKET_NAME: 99-project-mini
+      DB_DIALECT: mysql
 
     steps:
       # 해당 레포지토리로 check-out하는 Action을 불러왔습니다.
@@ -33,7 +40,17 @@ jobs:
           pwd
           touch .env
           echo PORT=${{ secrets.PORT }} >> .env
-          echo JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} >> .env
+          echo AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} >> .env
+          echo AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} >> .env
+          echo AWS_S3_BUCKET_NAME=${{ env.AWS_S3_BUCKET_NAME }} >> .env
+          echo AWS_REGION=${{ env.AWS_REGION }} >> .env
+          echo KEY=${{ secrets.KEY }} >> .env
+          echo client_id=${{ secrets.CLIENT_ID }} >> .env
+          echo DEV_DB_USERNAME=${{ secrets.DB_USERNAME }} >> .env
+          echo DEV_DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .env
+          echo DEV_DB_DATABASE=${{ secrets.DB_DATABASE }} >> .env
+          echo DEV_DB_HOST=${{ secrets.DB_HOST }} >> .env
+          echo DEV_DB_DIALECT=${{ env.DB_DIALECT }} >> .env
           cat .env
 
       - name: zip file
@@ -44,10 +61,10 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: ap-northeast-2
 
       - name: upload to S3
         run: aws s3 cp --region ap-northeast-2 ./deploy.zip s3://99-clone/deploy/
 
       - name: deploy with AWS codeDeploy
-        run: aws deploy create-deployment --application-name ${{ secrets.CODE_DEPLOY_APPLICATION_NAME }} --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name ${{ secrets.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }} --s3-location bucket=99-clone,bundleType=zip,key=deploy/deploy.zip
+        run: aws deploy create-deployment --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name ${{ env.CODE_DEPLOY_DEPLOYMENT_GROUP_NAME }} --s3-location bucket=99-clone,bundleType=zip,key=deploy/deploy.zip
