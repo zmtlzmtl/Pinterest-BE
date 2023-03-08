@@ -40,7 +40,7 @@ class UserController {
       });
 
       // cookie로 유저 정보 전달
-      res.cookie('Authorization', `Bearer ${token}`);
+      res.header('Authorization', `Bearer ${token}`);
       res.status(200).json({
         userId: existUser.userId,
         message: '로그인을 성공하였습니다.',

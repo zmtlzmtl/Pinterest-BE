@@ -1,8 +1,5 @@
 const UserRepository = require('../repositories/user.repository.js');
-const {
-  BadRequestError,
-  UnauthorizedError,
-} = require('../exceptions/customError.js');
+const { Conflict, UnauthorizedError } = require('../exceptions/customError.js');
 const { logger } = require('../middlewares/logger');
 const bcrypt = require('bcrypt');
 
@@ -20,7 +17,7 @@ class UserService {
     // 닉네임 중복 확인
     const existUser = await this.userRepository.findUserByEmail({ email });
     if (existUser) {
-      throw new BadRequestError('이미 존재하는 이메일입니다.');
+      throw new Conflict('이미 존재하는 이메일입니다.');
     }
     // DB 생성
     const result = await this.userRepository.createUser({
