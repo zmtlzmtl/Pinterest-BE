@@ -5,4 +5,4 @@ cd $REPOSITORY
 
 npm install 
 
-pm2 start app.js
+pm2 start app.js --name prod-app
