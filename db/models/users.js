@@ -13,18 +13,18 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    // static associate(models) {
-    //   this.belongsTo(models.Users, {
-    //     targetKey: 'userId',
-    //     foreignKey: 'UserId',
-    //     onDelete: 'CASCADE',
-    //   });
-    //   this.belongsTo(models.Posts, {
-    //     targetKey: 'postId',
-    //     foreignKey: 'PostId',
-    //     onDelete: 'CASCADE',
-    //   });
-    // }
+    static associate(models) {
+      this.hasMany(models.Pins, {
+        targetKey: 'userId',
+        foreignKey: 'userId',
+        onDelete: 'CASCADE',
+      });
+      this.hasMany(models.Comments, {
+        targetKey: 'userId',
+        foreignKey: 'userId',
+        onDelete: 'CASCADE',
+      });
+    }
   }
 
   Users.init(
@@ -37,23 +37,23 @@ module.exports = (sequelize, DataTypes) => {
       },
       email: {
         allowNull: false,
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
       },
       password: {
         allowNull: false,
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
       },
       nickname: {
         allowNull: false,
-        type: DataTypes.STRING
-      }
+        type: DataTypes.STRING,
+      },
     },
     {
       sequelize,
       modelName: 'Users',
-      timestamps: false ,
+      timestamps: false,
     }
   );
-  
+
   return Users;
 };

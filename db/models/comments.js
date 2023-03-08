@@ -15,11 +15,11 @@ module.exports = (sequelize, DataTypes) => {
      */
 
     static associate(models) {
-      // this.belongsTo(models.Users, {
-      //   targetKey: 'userId',
-      //   foreignKey: 'UserId',
-      //   onDelete: 'CASCADE',
-      // });
+      this.belongsTo(models.Users, {
+        targetKey: 'userId',
+        foreignKey: 'userId',
+        onDelete: 'CASCADE',
+      });
       this.belongsTo(models.Pins, {
         targetKey: 'pinId',
         foreignKey: 'pinId',
@@ -43,11 +43,16 @@ module.exports = (sequelize, DataTypes) => {
           model: 'Pins',
           key: 'pinId',
         },
-        onDelete: 'cascade',
+        onDelete: 'CASCADE',
       },
       userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        references: {
+          model: 'Users',
+          key: 'userId',
+        },
+        onDelete: 'CASCADE',
       },
       content: {
         type: DataTypes.STRING,
