@@ -8,8 +8,8 @@ class PinController {
   // 게시글 목록 조회
   getAllPins = async (req, res) => {
     logger.info(`PinController.getAllPins Request`);
-    const { keyword } = req.query;
-    const pins = await this.pinService.getAllPins({ keyword });
+    const { keyword, index } = req.query;
+    const pins = await this.pinService.getAllPins({ keyword, index });
     res.status(200).json({ pins });
   };
 
