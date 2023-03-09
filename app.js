@@ -17,7 +17,7 @@ app.use(cookieparser());
 app.use(
   cors({
     methods: ['GET', 'POST', 'DELETE', 'UPDATE', 'PUT', 'PATCH'],
-    origin: true,
+    origin: 'https://pinterest-fe.vercel.app',
     credentials: true,
     exposedHeaders: ['*', 'Authorization', 'Content-Type'],
   })
