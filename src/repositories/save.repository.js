@@ -1,5 +1,6 @@
-const { Saves } = require('../../db/models');
+const { Saves, Pins } = require('../../db/models');
 const { logger } = require('../middlewares/logger');
+const parseSequelizePrettier = require('../helpers/parse.sequelize.helper');
 
 class SaveRepository {
   constructor() {}
@@ -29,8 +30,23 @@ class SaveRepository {
   getAllPin = async ({ userId }) => {
     logger.info('SaveRepository.getAllPin');
     const getSave = await Saves.findAll({
+      attributes: ['saveId'],
       where: { userId },
-    });
+      include: [
+        {
+          model: Pins,
+          attributes: [
+            'pinId',
+            'title',
+            'description',
+            'imageUrl',
+            ['userId', 'authorId'],
+          ],
+        },
+      ],
+      group: ['Saves.pinId'],
+      raw: true,
+    }).then((model) => model.map(parseSequelizePrettier));
     return getSave;
   };
 }

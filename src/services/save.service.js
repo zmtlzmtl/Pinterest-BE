@@ -30,11 +30,7 @@ class SaveService {
     logger.info('SaveService.getAllPin');
     const getSave = await this.saveRepository.getAllPin({ userId });
 
-    return getSave.map((save) => {
-      return {
-        pinId: save.pinId,
-      };
-    });
+    return getSave;
   };
 }
 
