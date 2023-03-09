@@ -25,6 +25,6 @@ const S3storage = multerS3({
 
 const upload = multer({
   storage: S3storage,
-}).single('image');
+});
 
 module.exports = upload;
