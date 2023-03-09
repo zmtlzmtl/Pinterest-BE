@@ -28,7 +28,7 @@ class PinController {
   // 게시글 작성
   addPin = async (req, res, next) => {
     logger.info(`PinController.addPin Request`);
-    const userId = res.locals.user;
+    const { userId } = res.locals.user;
     const data = req.body.data;
     const { title, description, hashtags } = JSON.parse(data);
     console.log('req:', title, description, hashtags, req.file);
