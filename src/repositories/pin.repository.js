@@ -1,6 +1,6 @@
 const { logger } = require('../middlewares/logger');
 const { Transaction } = require('sequelize');
-const { Pins, Tags, PinsTags, sequelize } = require('../../db/models');
+const { Pins, Tags, PinsTags, Saves, sequelize } = require('../../db/models');
 const { Op } = require('sequelize');
 
 class PinRepository {
@@ -9,6 +9,13 @@ class PinRepository {
   findAll = async ({ offset }) => {
     logger.info(`PinRepository.findAll`);
     const pins = await Pins.findAll({
+      include: [
+        {
+          model: Saves,
+          attributes: ['userId'],
+        },
+      ],
+      group: ['Pins.pinId'],
       offset: offset * 30,
       limit: 30,
       order: [['createdAt', 'DESC']],
@@ -101,6 +108,13 @@ class PinRepository {
   findByKeyword = async ({ keyword, offset }) => {
     logger.info(`PinRepository.findByKeyword`);
     const pin = await Pins.findAll({
+      include: [
+        {
+          model: Saves,
+          attributes: ['userId'],
+        },
+      ],
+      group: ['Pins.pinId'],
       offset: offset * 30,
       limit: 30,
       where: {

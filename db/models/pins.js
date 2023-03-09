@@ -18,11 +18,16 @@ module.exports = (sequelize, DataTypes) => {
         sourceKey: 'pinId',
         foreignKey: 'pinId',
       });
-      //   this.belongsTo(models.Users, {
-      //     targetKey: 'userId',
-      //     foreignKey: 'UserId',
-      //     onDelete: 'CASCADE',
-      //   });
+      this.hasMany(models.Saves, {
+        sourceKey: 'pinId',
+        foreignKey: 'pinId',
+        onDelete: 'CASCADE',
+      });
+      this.belongsTo(models.Users, {
+        targetKey: 'userId',
+        foreignKey: 'userId',
+        onDelete: 'CASCADE',
+      });
     }
   }
 
@@ -37,11 +42,11 @@ module.exports = (sequelize, DataTypes) => {
       userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        // references: {
-        //   model: 'Users',
-        //   key: 'userId',
-        // },
-        // onDelete: 'cascade',
+        references: {
+          model: 'Users',
+          key: 'userId',
+        },
+        onDelete: 'cascade',
       },
       title: {
         type: DataTypes.STRING(40),
