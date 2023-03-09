@@ -25,14 +25,6 @@ const S3storage = multerS3({
 
 const upload = multer({
   storage: S3storage,
-  // 파일 허용 조건 : 확장자 이미지 타입만 업로드
-  fileFilter: function (_req, file, cb) {
-    const typed = String(file.mimetype)?.split('/')[0] ?? 'null';
-    if (typed !== 'image') {
-      cb(new Error('Not IMAGE TYPE!'), null);
-    }
-    cb(null, true);
-  },
-}).single('image');
+});
 
 module.exports = upload;

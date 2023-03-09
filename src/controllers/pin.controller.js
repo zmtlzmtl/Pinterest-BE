@@ -8,7 +8,8 @@ class PinController {
   // 게시글 목록 조회
   getAllPins = async (req, res) => {
     logger.info(`PinController.getAllPins Request`);
-    const pins = await this.pinService.getAllPins();
+    const { keyword, index } = req.query;
+    const pins = await this.pinService.getAllPins({ keyword, index });
     res.status(200).json({ pins });
   };
 
@@ -27,8 +28,10 @@ class PinController {
   // 게시글 작성
   addPin = async (req, res, next) => {
     logger.info(`PinController.addPin Request`);
-    const userId = Math.floor(Math.random() * 11);
-    const { title, description, hashtags } = req.body;
+    const { userId } = res.locals.user;
+    const data = req.body.data;
+    const { title, description, hashtags } = JSON.parse(data);
+    console.log('req:', title, description, hashtags, req.file);
     const imageUrl = req.file.location;
     try {
       const result = await this.pinService.addPin({
@@ -65,17 +68,18 @@ class PinController {
   //   }
   // };
 
-  // // 게시글 삭제
-  // deletePin = async (req, res, next) => {
-  //   const { userId } = res.locals.user;
-  //   const { pinId } = req.params;
-  //   try {
-  //     const result = await this.pinService.deletePin({ pinId, userId });
-  //     res.status(200).json(result);
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // };
+  // 게시글 삭제
+  deletePin = async (req, res, next) => {
+    logger.info(`PinController.deletePin Request`);
+    const { userId } = res.locals.user;
+    const { pinId } = req.params;
+    try {
+      const result = await this.pinService.deletePin({ pinId, userId });
+      res.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 
 module.exports = PinController;
