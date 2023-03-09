@@ -33,13 +33,12 @@ class SaveRepository {
       include: [
         {
           model: Saves,
-          attributes: ['saveId'],
+          attributes: ['saveId', 'userId'],
           where: { userId },
         },
       ],
       group: ['Saves.pinId'],
-      raw: true,
-    }).then((model) => model.map(parseSequelizePrettier));
+    });
     return getSave;
   };
 }
