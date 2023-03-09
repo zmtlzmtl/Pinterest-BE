@@ -11,6 +11,8 @@ router.get('/pins', pinController.getAllPins);
 router.get('/pins/:pinId', pinValidation.paramCheck, pinController.getPin);
 router.post(
   '/pins',
+  loginMiddleware,
+  uploadMiddleware,
   pinValidation.pinCheck,
   uploadMiddleware.single('image'),
   loginMiddleware,
