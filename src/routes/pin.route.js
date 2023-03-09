@@ -14,13 +14,15 @@ router.post(
   loginMiddleware,
   uploadMiddleware,
   pinValidation.pinCheck,
+  uploadMiddleware.single('image'),
+  loginMiddleware,
   pinController.addPin
 );
 // router.put('/:pinId', pinValidation.pinCheck, pinController.updatePin);
 router.delete(
   '/:pinId',
-  loginMiddleware,
   pinValidation.pinCheck,
+  loginMiddleware,
   pinController.deletePin
 );
 
