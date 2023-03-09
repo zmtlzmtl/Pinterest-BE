@@ -28,9 +28,10 @@ class PinController {
   // 게시글 작성
   addPin = async (req, res, next) => {
     logger.info(`PinController.addPin Request`);
-    const userId = Math.floor(Math.random() * 11);
+    const userId = res.locals.user;
     const data = req.body.data;
     const { title, description, hashtags } = JSON.parse(data);
+    console.log('req:', title, description, hashtags, req.file);
     const imageUrl = req.file.location;
     try {
       const result = await this.pinService.addPin({
@@ -69,6 +70,7 @@ class PinController {
 
   // 게시글 삭제
   deletePin = async (req, res, next) => {
+    logger.info(`PinController.deletePin Request`);
     const { userId } = res.locals.user;
     const { pinId } = req.params;
     try {

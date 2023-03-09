@@ -39,7 +39,7 @@ const pinValidation = {
       })
       .unknown();
     try {
-      await check.validateAsync(JSON.parse(req.body.data));
+      await check.validateAsync(req.body.data);
     } catch (error) {
       next(error);
     }
