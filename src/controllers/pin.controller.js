@@ -67,17 +67,17 @@ class PinController {
   //   }
   // };
 
-  // // 게시글 삭제
-  // deletePin = async (req, res, next) => {
-  //   const { userId } = res.locals.user;
-  //   const { pinId } = req.params;
-  //   try {
-  //     const result = await this.pinService.deletePin({ pinId, userId });
-  //     res.status(200).json(result);
-  //   } catch (error) {
-  //     next(error);
-  //   }
-  // };
+  // 게시글 삭제
+  deletePin = async (req, res, next) => {
+    const { userId } = res.locals.user;
+    const { pinId } = req.params;
+    try {
+      const result = await this.pinService.deletePin({ pinId, userId });
+      res.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  };
 }
 
 module.exports = PinController;
