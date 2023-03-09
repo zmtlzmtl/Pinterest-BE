@@ -45,7 +45,7 @@ jobs:
           echo JWT_EXPIRESIN=1800000
           echo AWS_S3_BUCKET_NAME=${{ env.AWS_S3_BUCKET_NAME }} >> .env
           echo AWS_REGION=${{ env.AWS_REGION }} >> .env
-          echo KEY=${{ secrets.KEY }} >> .env
+          echo SIGNUP_SALT=10
           echo client_id=${{ secrets.CLIENT_ID }} >> .env
           echo DEV_DB_USERNAME=${{ secrets.DB_USERNAME }} >> .env
           echo DEV_DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .env

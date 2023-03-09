@@ -1,7 +1,9 @@
 const jwt = require('jsonwebtoken');
 const { Users } = require('../../db/models');
+const { logger } = require('../middlewares/logger');
 
 module.exports = async (req, res, next) => {
+  logger.info('LoginMiddleware Request');
   const { authorization } = req.headers;
   const [tokenType, token] = (authorization ?? '').split(' ');
   if (tokenType !== 'Bearer' || !token) {
@@ -10,7 +12,8 @@ module.exports = async (req, res, next) => {
     });
   }
   try {
-    const decodedToken = jwt.verify(token, process.env.JWT_KEY);
+    logger.info('Verify Request');
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
     const userId = decodedToken.userId;
 
     const user = await Users.findOne({ where: { userId } });

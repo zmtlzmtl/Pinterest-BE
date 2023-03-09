@@ -34,9 +34,19 @@ class NotFoundError extends Error {
   }
 }
 
+// 충돌 (409)
+class Conflict extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'Conflict';
+    this.statusCode = 409;
+  }
+}
+
 module.exports = {
   BadRequestError,
   UnauthorizedError,
   ForbiddenError,
   NotFoundError,
+  Conflict,
 };
