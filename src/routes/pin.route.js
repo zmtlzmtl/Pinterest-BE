@@ -16,6 +16,6 @@ router.post(
   pinController.addPin
 );
 // router.put('/:pinId', pinValidation.pinCheck, pinController.updatePin);
-router.delete('/:pinId', loginMiddleware, pinController.deletePin);
+router.delete('/pins/:pinId', loginMiddleware, pinController.deletePin);
 
 module.exports = router;
