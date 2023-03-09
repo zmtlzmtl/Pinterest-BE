@@ -29,24 +29,16 @@ class SaveRepository {
 
   getAllPin = async ({ userId }) => {
     logger.info('SaveRepository.getAllPin');
-    const getSave = await Saves.findAll({
-      attributes: ['saveId'],
-      where: { userId },
+    const getSave = await Pins.findAll({
       include: [
         {
-          model: Pins,
-          attributes: [
-            'pinId',
-            'title',
-            'description',
-            'imageUrl',
-            ['userId', 'authorId'],
-          ],
+          model: Saves,
+          attributes: ['saveId', 'userId'],
+          where: { userId },
         },
       ],
       group: ['Saves.pinId'],
-      raw: true,
-    }).then((model) => model.map(parseSequelizePrettier));
+    });
     return getSave;
   };
 }
