@@ -8,7 +8,7 @@ class SaveController {
   savePin = async (req, res, next) => {
     logger.info(`SaveController.savePin Request`);
     try {
-      const userId = Math.floor(Math.random() * 11);
+      const { userId } = res.locals.user;
       const { pinId } = req.params;
 
       const save = await this.saveService.savePin({ userId, pinId });
@@ -20,10 +20,10 @@ class SaveController {
   getAllPin = async (req, res, next) => {
     logger.info(`SaveController.getAllPin Request`);
     try {
-      const userId = Math.floor(Math.random() * 11);
+      const { userId } = res.locals.user;
 
-      const getSave = await this.saveService.getAllPin({ userId });
-      return res.status(200).json({ getSave });
+      const data = await this.saveService.getAllPin({ userId });
+      return res.status(200).json({ data });
     } catch (error) {
       next(error);
     }
